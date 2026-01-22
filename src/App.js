@@ -13,14 +13,6 @@ const CATEGORIES = [
   { name: "news", color: "#8b5cf6" },
 ];
 
-// function Counter() {
-//   const [ count, setCount ] = useState(8)
-//   return <div>
-//     <span style={{ fontSize: '40px' }}>{count}</span>
-//     <button className="btn btn-large" onClick={() => setCount((count) => count + 1)}>+1</button>
-//   </div>
-// }
-
 function App() {
   const [showForm, setShowForm ] = useState(false);
   const [facts, setFacts] = useState([]);
@@ -100,7 +92,7 @@ function isValidHttpUrl(string) {
 
 function NewFactForm({ setFacts, setShowForm }) {
   const [ text, setText ] = useState("");
-  const [ source, setSource ] = useState("http://example.com");
+  const [ source, setSource ] = useState("");
   const [ category, setCategory ] = useState("");
   const [isUploading, setIsUploading] = useState(false);
 
@@ -202,6 +194,8 @@ function FactList({ facts, setFacts }) {
 function Fact({ fact, setFacts }) {
 
   const [ isUpdating, setIsUpdating ] = useState(false)
+  const isDisputed = fact.votesInteresting + fact.votesMindblowing < fact.votesFalse;
+
   async function handleVote(columnName) {
     setIsUpdating(true);
 
@@ -222,6 +216,7 @@ function Fact({ fact, setFacts }) {
   return (
     <li className="fact">
       <p>
+        {isDisputed ? <span className="disputed">[DISPUTED]</span> : null}
         {fact.text}
         <a 
           className="source"
